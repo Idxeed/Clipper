@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Users\murza\source\repos\Clipper\Clipper\main.cpp(115): warning C4715: Readbuffer: значение возвращается не при всех путях выполнения
+  Clipper.vcxproj -> C:\Users\murza\source\repos\Clipper\x64\Debug\Clipper.exe
