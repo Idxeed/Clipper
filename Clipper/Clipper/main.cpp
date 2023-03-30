@@ -78,19 +78,37 @@ void autoranner()
 
 void Reactor()
 {
-	while (IsClipboardFormatAvailable(CF_TEXT))
+	string data1="";
+	string data2 = Readbuffer();
+	if (data2 != data1)
 	{
-		if (OpenClipboard(NULL))
+		if (IsClipboardFormatAvailable(CF_TEXT))
 		{
+			if (OpenClipboard(NULL))
+			{
 
-			Readbuffer();
-			CloseClipboard();
-			
+				Readbuffer();
+				data1 = Readbuffer();
+				CloseClipboard();
+				
+				
 
+
+			}
+			Sleep(2000);
 		}
-		Sleep(2000);
+		Reactor();
+		
 	}
-	Reactor();
+	else
+	{
+		data2 = "";
+		data1 = "";
+		Reactor();
+	}
+	
+	
+	
 	
 }
 
