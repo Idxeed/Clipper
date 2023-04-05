@@ -1,4 +1,3 @@
 ﻿  main.cpp
-C:\Users\murza\source\repos\Clipper\Clipper\main.cpp(109): warning C4715: Readbuffer: значение возвращается не при всех путях выполнения
-main.obj : warning LNK4229: встретилась недопустимая директива "/SYBSYSTEM:windows,"; не учитывается
+C:\Users\murza\source\repos\Clipper\Clipper\main.cpp(107): warning C4715: Readbuffer: значение возвращается не при всех путях выполнения
   Clipper.vcxproj -> C:\Users\murza\source\repos\Clipper\x64\Debug\Clipper.exe
